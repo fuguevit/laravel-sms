@@ -1,0 +1,38 @@
+{
+  "name": "fuguevit/laravel-sms",
+  "type": "library",
+  "description": "Laravel sms library",
+  "license": "MIT",
+  "homepage": "http://www.fuguevit.com",
+  "keywords": ["sms","laravel"],
+  "authors": [
+    {
+      "name": "Frank Wang",
+      "email": "wangxuan@188.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9",
+    "illuminate/support": "^5.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Fuguevit\\": "src/Fuguevit/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Fuguevit\\Sms\\Tests": "tests/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.x-dev"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
