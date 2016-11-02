@@ -20,7 +20,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Fuguevit\\": "src/Fuguevit/"
+      "Fuguevit\\Sms\\": "src/"
     }
   },
   "autoload-dev": {
