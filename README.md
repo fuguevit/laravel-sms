@@ -1,2 +1,3 @@
 # laravel-sms
-only for chinese user
+
+sms service , only with chinese
