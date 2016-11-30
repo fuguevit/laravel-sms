@@ -44,6 +44,9 @@ return [
         ],
     ],
 
+
+
+
     /*
     |--------------------------------------------------------------------------
     | SMS Unify Error Code
@@ -53,7 +56,24 @@ return [
     |  the unify error code.
     |
     */
-    'error-code' => [
+    'error_code' => [
+
+        'msg_verify_failed'    => -10,
+        'interface_forbidden'  => -11,
+        'balance_lacked'       => -20,
+        'content_null'         => -30,
+        'censor_failed'        => -31,
+        'signature_lacked'     => -32,
+        'message_too_long'     => -33,
+        'signature_failed'     => -34,
+        'phone_failed'         => -40,
+        'phone_in_black_list'  => -41,
+        'verify_frequency'     => -42,
+        'ip_not_in_white_list' => -50,
+        'unknown'              => -90,
+    ],
+
+    'error_msg' => [
 
         '-10' => '验证信息失败',
         '-11' => '用户接口被禁用',
@@ -68,7 +88,6 @@ return [
         '-42' => '验证码类短信发送频率过快',
         '-50' => '请求发送IP不在白名单内',
         '-90' => '未知错误'
-
     ],
 
 ];

@@ -79,7 +79,39 @@ class MiaodiyunSmsAdapter extends AbstractAdapter
      */
     public function unifyResponseData($response)
     {
+        $result = ['status' => 'success', 'data' => null, 'message' => null];
+        $data = json_decode($response);
 
+        // if data is null, return error unknown.
+        if(is_null($data)) {
+
+            $result['status'] = 'error';
+            $result['error_code'] = Config::get('laravel-sms.error_code.unknown');
+            $result['message']    = Config::get('laravel-sms.error_msg.' . $response['error_code']);
+
+            return json_encode($result, JSON_UNESCAPED_UNICODE);
+        }
+
+        // if respCode equals '00000', returns success
+        if($data->respCode == '00000') {
+
+            return json_encode($result, JSON_UNESCAPED_UNICODE);
+        }
+
+        $result['status'] = 'error';
+        switch ($data->respCode) {
+            // phone failed
+            case '00025':
+                $result['error_code'] = Config::get('laravel-sms.error_code.phone_failed');
+                break;
+            // default
+            default :
+                $result['error_code'] = Config::get('laravel-sms.error_code.unknown');
+        }
+
+        $result['message'] = Config::get('laravel-sms.error_msg.' . $result['error_code']);
+
+        return json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 
     /**
