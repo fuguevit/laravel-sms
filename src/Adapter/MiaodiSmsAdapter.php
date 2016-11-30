@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Config;
 
-class MiaodiyunSmsAdapter extends AbstractAdapter
+class MiaodiSmsAdapter extends AbstractAdapter
 {
     protected $rest_url;
     protected $auth_token;
@@ -103,6 +103,14 @@ class MiaodiyunSmsAdapter extends AbstractAdapter
             // phone failed
             case '00025':
                 $result['error_code'] = Config::get('laravel-sms.error_code.phone_failed');
+                break;
+            // signature lacked
+            case '00138':
+                $result['error_code'] = Config::get('laravel-sms.error_code.signature_lacked');
+                break;
+            // frequency problem
+            case '00412':case "00413":case "00519":
+                $result['error_code'] = Config::get('laravel-sms.error_code.verify_frequency');
                 break;
             // default
             default :

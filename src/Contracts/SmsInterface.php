@@ -4,7 +4,7 @@ namespace Fuguevit\Sms\Contracts;
 
 interface SmsInterface
 {
-    public function getUrl();
+    public function getInterfaceUrl();
     
     public function send($phone, $message);
     
