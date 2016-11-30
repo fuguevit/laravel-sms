@@ -13,7 +13,8 @@
   ],
   "require": {
     "php": ">=5.5.9",
-    "illuminate/support": "^5.2"
+    "illuminate/support": "^5.3",
+    "illuminate/config": "^5.3"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8"
@@ -25,10 +26,11 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Fuguevit\\Sms\\Tests": "tests/"
+      "Fuguevit\\Sms\\Tests\\": "tests/"
     }
   },
   "extra": {
+    "component": "package",
     "branch-alias": {
       "dev-master": "0.x-dev"
     }
