@@ -7,7 +7,7 @@ interface AdapterInterface
     /**
      * @return mixed
      */
-    public function getUrl();
+    public function getInterfaceUrl();
 
     /**
      * @param $phone

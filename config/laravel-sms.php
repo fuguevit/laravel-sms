@@ -14,13 +14,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Signature
+    | Default Application Name
     |--------------------------------------------------------------------------
     |
-    | Signature will be added before your message body.
+    | Application name will be added before your message body.
     |
     */
-    'signature' => 'laravel-sms',
+    'application' => 'laravel-sms',
 
     /*
     |--------------------------------------------------------------------------
@@ -37,14 +37,38 @@ return [
             'account_sid' => '',
             'auth_token'  => '',
             'rest_url'    => 'https://api.miaodiyun.com',
-            'verify_url'  => 'https://api.miaodiyun.com/20150822/industrySMS/sendSMS',
-
+            'verify_uri'  => '/20150822/industrySMS/sendSMS',
             'template' => [
                 'verify' => '您的手机验证码为{1}，有效时间为{2}分钟，请妥善保管并及时使用该验证码。如非本人操作，请忽略此信息。',
             ],
         ],
+    ],
 
-        
+    /*
+    |--------------------------------------------------------------------------
+    | SMS Unify Error Code
+    |--------------------------------------------------------------------------
+    |
+    |  When you implement a new adapter, you should convert error code to
+    |  the unify error code.
+    |
+    */
+    'error-code' => [
+
+        '-10' => '验证信息失败',
+        '-11' => '用户接口被禁用',
+        '-20' => '短信余额不足',
+        '-30' => '短信内容为空',
+        '-31' => '短信内容存在敏感词',
+        '-32' => '短信内容缺少签名信息',
+        '-33' => '短信过长',
+        '-34' => '签名不可用',
+        '-40' => '错误的手机号',
+        '-41' => '号码在黑名单中',
+        '-42' => '验证码类短信发送频率过快',
+        '-50' => '请求发送IP不在白名单内',
+        '-90' => '未知错误'
+
     ],
 
 ];
