@@ -8,7 +8,7 @@ abstract class AbstractAdapter implements AdapterInterface
 {
     protected $destination;
 
-    public abstract function unifyResponseData($response);
+    abstract public function unifyResponseData($response);
 
     public function reply($data)
     {

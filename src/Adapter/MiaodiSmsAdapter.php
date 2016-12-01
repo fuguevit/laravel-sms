@@ -49,7 +49,7 @@ class MiaodiSmsAdapter extends AbstractAdapter
     }
 
     /**
-     * Get AuthToken
+     * Get AuthToken.
      *
      * @return mixed
      */
@@ -83,18 +83,16 @@ class MiaodiSmsAdapter extends AbstractAdapter
         $data = json_decode($response);
 
         // if data is null, return error unknown.
-        if(is_null($data)) {
-
+        if (is_null($data)) {
             $result['status'] = 'error';
             $result['error_code'] = Config::get('laravel-sms.error_code.unknown');
-            $result['message']    = Config::get('laravel-sms.error_msg.' . $response['error_code']);
+            $result['message'] = Config::get('laravel-sms.error_msg.'.$response['error_code']);
 
             return json_encode($result, JSON_UNESCAPED_UNICODE);
         }
 
         // if respCode equals '00000', returns success
-        if($data->respCode == '00000') {
-
+        if ($data->respCode == '00000') {
             return json_encode($result, JSON_UNESCAPED_UNICODE);
         }
 
@@ -109,15 +107,15 @@ class MiaodiSmsAdapter extends AbstractAdapter
                 $result['error_code'] = Config::get('laravel-sms.error_code.signature_lacked');
                 break;
             // frequency problem
-            case '00412':case "00413":case "00519":
+            case '00412':case '00413':case '00519':
                 $result['error_code'] = Config::get('laravel-sms.error_code.verify_frequency');
                 break;
             // default
-            default :
+            default:
                 $result['error_code'] = Config::get('laravel-sms.error_code.unknown');
         }
 
-        $result['message'] = Config::get('laravel-sms.error_msg.' . $result['error_code']);
+        $result['message'] = Config::get('laravel-sms.error_msg.'.$result['error_code']);
 
         return json_encode($result, JSON_UNESCAPED_UNICODE);
     }
@@ -137,12 +135,12 @@ class MiaodiSmsAdapter extends AbstractAdapter
         $request = $client->post($destination)
             ->addPostFields(
                 [
-                    'accountSid' => $this->getAccountSid(),
-                    'smsContent' => $message,
-                    'to' => $phone,
-                    'timestamp' => $current_ts,
-                    'sig' => $signature,
-                    'respDataType' => 'JSON'
+                    'accountSid'   => $this->getAccountSid(),
+                    'smsContent'   => $message,
+                    'to'           => $phone,
+                    'timestamp'    => $current_ts,
+                    'sig'          => $signature,
+                    'respDataType' => 'JSON',
                 ],
                 ('Content-Type: application/x-www-form-urlencoded')
             );
@@ -162,11 +160,11 @@ class MiaodiSmsAdapter extends AbstractAdapter
     public function sendVerifyCode($phone, $code, $timeout)
     {
         // Set Destination Url.
-        $this->setDestination($this->getInterfaceUrl() . Config::get('laravel-sms.settings.miaodi.verify_uri'));
+        $this->setDestination($this->getInterfaceUrl().Config::get('laravel-sms.settings.miaodi.verify_uri'));
 
         $application = Config::get('laravel-sms.application');
         $body = Config::get('laravel-sms.settings.miaodi.template.verify');
-        $raw_content = $application . $body;
+        $raw_content = $application.$body;
 
         // Replace template to user specific message.
         $message = str_replace(['{1}', '{2}'], [$code, $timeout], $raw_content);
@@ -176,5 +174,4 @@ class MiaodiSmsAdapter extends AbstractAdapter
 
         return $response;
     }
-
 }

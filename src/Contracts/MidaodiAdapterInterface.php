@@ -2,11 +2,11 @@
 
 namespace Fuguevit\Sms\Contracts;
 
-interface MiaodiAdapterInterface
+interface MidaodiAdapterInterface
 {
     public function getUrl();
 
     public function sendSms($mobile, $message);
 
-    public function sendVerifyCode($mobile, $code, $invalid=15);
+    public function sendVerifyCode($mobile, $code, $invalid = 15);
 }

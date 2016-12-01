@@ -16,7 +16,7 @@ class SmsServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-           realpath(__DIR__ . '/../../config/laravel-sms.php') => config_path('laravel-sms.php'),
+           realpath(__DIR__.'/../../config/laravel-sms.php') => config_path('laravel-sms.php'),
         ], 'config');
     }
 
@@ -27,7 +27,7 @@ class SmsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(realpath(__DIR__ . '/../../config/laravel-sms.php'), 'laravel-sms');
+        $this->mergeConfigFrom(realpath(__DIR__.'/../../config/laravel-sms.php'), 'laravel-sms');
 
         $this->registerSmsSystem();
     }
@@ -37,10 +37,9 @@ class SmsServiceProvider extends ServiceProvider
      */
     public function registerSmsSystem()
     {
-        $this->app->singleton('sms', function() {
-            
+        $this->app->singleton('sms', function () {
             $adapter = $this->getDefaultDriver();
-            
+
             return new Sms(new $adapter());
         });
     }
@@ -48,20 +47,20 @@ class SmsServiceProvider extends ServiceProvider
     /**
      * Get Default Sms Driver.
      *
-     * @return string
      * @throws AdapterNotFoundException
+     *
+     * @return string
      */
     public function getDefaultDriver()
     {
         $driver = $this->app['config']['laravel-sms.default'];
-        
-        $class = __DIR__.'/../Adapter/' . ucfirst($driver) . 'SmsAdapter';
-        
+
+        $class = __DIR__.'/../Adapter/'.ucfirst($driver).'SmsAdapter';
+
         if (!class_exists($class)) {
-            throw new AdapterNotFoundException;
+            throw new AdapterNotFoundException();
         }
-        
+
         return $class;
     }
-
 }

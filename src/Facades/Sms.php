@@ -13,5 +13,4 @@ class Sms extends Facade
     {
         return 'sms';
     }
-
 }
