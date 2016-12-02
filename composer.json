@@ -1,7 +1,7 @@
 {
   "name": "fuguevit/laravel-sms",
   "type": "library",
-  "description": "Laravel sms library",
+  "description": "Laravel SMS Library",
   "license": "MIT",
   "homepage": "http://www.fuguevit.com",
   "keywords": ["sms","laravel"],
@@ -13,8 +13,8 @@
   ],
   "require": {
     "php": ">=5.5.9",
-    "illuminate/support": "^5.3",
-    "illuminate/config": "^5.3",
+    "illuminate/support": "^5.2|^5.3",
+    "illuminate/config": "^5.2|^5.3",
     "nesbot/carbon": "^1.21",
     "guzzlehttp/guzzle": "~6.0"
   },
