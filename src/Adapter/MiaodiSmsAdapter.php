@@ -125,13 +125,12 @@ class MiaodiSmsAdapter extends AbstractAdapter
      */
     public function send($phone, $message)
     {
-        $client = new Client();
-
         $destination = $this->getDestination();
         $current_ts = Carbon::now()->format('YmdHis');
         // Calculate Signature.
-        $signature = md5($this->account_sid.$this->auth_token.$current_ts);
+        $signature = md5($this->getAccountSid().$this->getAuthToken().$current_ts);
         // Form Request.
+        $client = new Client();
         $data = $client->request('POST', $destination, [
             'form_params' => [
                 'accountSid'   => $this->getAccountSid(),
