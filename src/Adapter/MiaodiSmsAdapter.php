@@ -132,28 +132,22 @@ class MiaodiSmsAdapter extends AbstractAdapter
         // Calculate Signature.
         $signature = md5($this->account_sid.$this->auth_token.$current_ts);
         // Form Request.
-        $request = $client->post($destination)
-            ->addPostFields(
-                [
-                    'accountSid'   => $this->getAccountSid(),
-                    'smsContent'   => $message,
-                    'to'           => $phone,
-                    'timestamp'    => $current_ts,
-                    'sig'          => $signature,
-                    'respDataType' => 'JSON',
-                ],
-                ('Content-Type: application/x-www-form-urlencoded')
-            );
-
-        // Send Request.
-        $data = $request->send();
-
+        $data = $client->request('POST', $destination, [
+            'form_params' => [
+                'accountSid'   => $this->getAccountSid(),
+                'smsContent'   => $message,
+                'to'           => $phone,
+                'timestamp'    => $current_ts,
+                'sig'          => $signature,
+                'respDataType' => 'JSON',
+            ]
+        ]);
         // Unify response data.
         $response = $this->unifyResponseData($data->getBody());
 
         return $response;
     }
-
+    
     /**
      * {@inheritdoc}
      */
