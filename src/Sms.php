@@ -16,7 +16,7 @@ class Sms implements SmsInterface
      * Sms constructor.
      *
      * @param AdapterInterface $adapter
-     * @param null $config
+     * @param null             $config
      */
     public function __construct(AdapterInterface $adapter, $config = null)
     {
@@ -46,5 +46,4 @@ class Sms implements SmsInterface
     {
         return $this->adapter->sendVerifyCode($mobile, $code, $timeout);
     }
-
 }
