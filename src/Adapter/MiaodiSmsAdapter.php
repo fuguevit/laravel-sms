@@ -139,14 +139,14 @@ class MiaodiSmsAdapter extends AbstractAdapter
                 'timestamp'    => $current_ts,
                 'sig'          => $signature,
                 'respDataType' => 'JSON',
-            ]
+            ],
         ]);
         // Unify response data.
         $response = $this->unifyResponseData($data->getBody());
 
         return $response;
     }
-    
+
     /**
      * {@inheritdoc}
      */

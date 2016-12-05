@@ -56,7 +56,7 @@ class SmsServiceProvider extends ServiceProvider
         $driver = $this->app['config']['laravel-sms.default'];
 
         $class = '\\Fuguevit\\Sms\\Adapter\\'.ucfirst($driver).'SmsAdapter';
-        
+
         if (!class_exists($class)) {
             throw new AdapterNotFoundException();
         }
