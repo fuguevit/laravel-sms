@@ -6,9 +6,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class LuosimaoSmsAdapter
- * 
- * @package Fuguevit\Sms\Adapter
+ * Class LuosimaoSmsAdapter.
  */
 class LuosimaoSmsAdapter extends AbstractAdapter
 {
@@ -135,12 +133,12 @@ class LuosimaoSmsAdapter extends AbstractAdapter
         $data = $client->request('POST', $destination, [
             'auth'        => [
                 'username'     => 'api',
-                'password'     => 'key-'.$this->getAuthToken()
+                'password'     => 'key-'.$this->getAuthToken(),
             ],
             'form_params' => [
                 'message'      => $message,
                 'mobile'       => $phone,
-            ]
+            ],
         ]);
         // Unify response data.
         $response = $this->unifyResponseData($data->getBody());
@@ -163,7 +161,7 @@ class LuosimaoSmsAdapter extends AbstractAdapter
         // Replace template to user specific message.
         $message = preg_replace('/xxx/', $code, $raw_content);
         $message = preg_replace('/xxx/', $code, $message);
-        
+
         // Send Message.
         $response = $this->send($phone, $message);
 
