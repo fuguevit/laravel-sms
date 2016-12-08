@@ -42,15 +42,15 @@ return [
                 'verify' => '',    // verify code message, must pattern with template.
             ],
         ],
-        
+
         'luosimao' => [
-          
+
             'account_sid' => '',    // account sid, must have.
             'auth_token'  => '',    // auth token, must check.
             'rest_url'    => 'http://sms-api.luosimao.com/v1',
             'verify_uri'  => '/send.json',
-            'template'  => [
-                
+            'template'    => [
+
             ],
         ],
     ],
