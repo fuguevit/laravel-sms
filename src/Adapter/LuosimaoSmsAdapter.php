@@ -2,7 +2,6 @@
 
 namespace Fuguevit\Sms\Adapter;
 
-use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Config;
 
@@ -84,6 +83,45 @@ class LuosimaoSmsAdapter extends AbstractAdapter
      */
     public function unifyResponseData($response)
     {
+        $result = ['status' => 'success', 'data' => null, 'message' => null];
+        $data = json_decode($response);
+
+        // if data is null, return error unknown.
+        if (is_null($data)) {
+            $result['status'] = 'error';
+            $result['error_code'] = Config::get('laravel-sms.error_code.unknown');
+            $result['message'] = Config::get('laravel-sms.error_msg.'.$response['error_code']);
+
+            return json_encode($result, JSON_UNESCAPED_UNICODE);
+        }
+
+        // if error equals 0, returns success
+        if ($data->error == 0) {
+            return json_encode($result, JSON_UNESCAPED_UNICODE);
+        }
+
+        $result['status'] = 'error';
+        switch ($data->error) {
+            // phone failed
+            case -40:
+                $result['error_code'] = Config::get('laravel-sms.error_code.phone_failed');
+                break;
+            // signature lacked
+            case -32:
+                $result['error_code'] = Config::get('laravel-sms.error_code.signature_lacked');
+                break;
+            // frequency problem
+            case -42:
+            $result['error_code'] = Config::get('laravel-sms.error_code.verify_frequency');
+            break;
+            // default
+            default:
+                $result['error_code'] = Config::get('laravel-sms.error_code.unknown');
+        }
+
+        $result['message'] = Config::get('laravel-sms.error_msg.'.$result['error_code']);
+
+        return json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 
     /**
@@ -95,6 +133,10 @@ class LuosimaoSmsAdapter extends AbstractAdapter
         // Form Request.
         $client = new Client();
         $data = $client->request('POST', $destination, [
+            'auth'        => [
+                'username'     => 'api',
+                'password'     => 'key-'.$this->getAuthToken()
+            ],
             'form_params' => [
                 'message'      => $message,
                 'mobile'       => $phone,
