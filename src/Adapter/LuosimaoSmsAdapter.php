@@ -2,6 +2,15 @@
 
 namespace Fuguevit\Sms\Adapter;
 
+use Carbon\Carbon;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Config;
+
+/**
+ * Class LuosimaoSmsAdapter
+ * 
+ * @package Fuguevit\Sms\Adapter
+ */
 class LuosimaoSmsAdapter extends AbstractAdapter
 {
     protected $rest_url;
@@ -82,6 +91,19 @@ class LuosimaoSmsAdapter extends AbstractAdapter
      */
     public function send($phone, $message)
     {
+        $destination = $this->getDestination();
+        // Form Request.
+        $client = new Client();
+        $data = $client->request('POST', $destination, [
+            'form_params' => [
+                'message'      => $message,
+                'mobile'       => $phone,
+            ]
+        ]);
+        // Unify response data.
+        $response = $this->unifyResponseData($data->getBody());
+
+        return $response;
     }
 
     /**
@@ -89,6 +111,20 @@ class LuosimaoSmsAdapter extends AbstractAdapter
      */
     public function sendVerifyCode($phone, $code, $timeout)
     {
+        // Set Destination Url.
+        $this->setDestination($this->getInterfaceUrl().Config::get('laravel-sms.settings.luosimao.verify_uri'));
+
+        $application = Config::get('laravel-sms.application');
+        $body = Config::get('laravel-sms.settings.luosimao.template.verify');
+        $raw_content = $application.$body;
+
+        // Replace template to user specific message.
+        $message = preg_replace('/xxx/', $code, $raw_content);
+        $message = preg_replace('/xxx/', $code, $message);
+        
+        // Send Message.
+        $response = $this->send($phone, $message);
+
+        return $response;
     }
-    
 }
