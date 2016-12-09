@@ -131,10 +131,7 @@ class LuosimaoSmsAdapter extends AbstractAdapter
         // Form Request.
         $client = new Client();
         $data = $client->request('POST', $destination, [
-            'auth'        => [
-                'username'     => 'api',
-                'password'     => 'key-'.$this->getAuthToken(),
-            ],
+            'auth' => [ 'api', 'key-'.$this->getAuthToken() ],
             'form_params' => [
                 'message'      => $message,
                 'mobile'       => $phone,
@@ -156,11 +153,11 @@ class LuosimaoSmsAdapter extends AbstractAdapter
 
         $application = Config::get('laravel-sms.application');
         $body = Config::get('laravel-sms.settings.luosimao.template.verify');
-        $raw_content = $application.$body;
+        $raw_content = $body.$application;
 
         // Replace template to user specific message.
-        $message = preg_replace('/xxx/', $code, $raw_content);
-        $message = preg_replace('/xxx/', $code, $message);
+        $message = preg_replace('/###/', $code, $raw_content);
+        $message = preg_replace('/###/', $timeout, $message);
 
         // Send Message.
         $response = $this->send($phone, $message);
