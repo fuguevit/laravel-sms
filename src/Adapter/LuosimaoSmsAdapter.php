@@ -131,7 +131,7 @@ class LuosimaoSmsAdapter extends AbstractAdapter
         // Form Request.
         $client = new Client();
         $data = $client->request('POST', $destination, [
-            'auth' => [ 'api', 'key-'.$this->getAuthToken() ],
+            'auth'        => ['api', 'key-'.$this->getAuthToken()],
             'form_params' => [
                 'message'      => $message,
                 'mobile'       => $phone,
